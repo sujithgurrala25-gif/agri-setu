@@ -1,3 +1,5 @@
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 const mongoose = require("mongoose");
 
 async function connectDb() {
@@ -7,7 +9,7 @@ async function connectDb() {
   if (!wantMemory && uri) {
     try {
       mongoose.set("strictQuery", true);
-      await mongoose.connect(uri, { serverSelectionTimeoutMS: 2500 });
+      await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
       console.log("MongoDB connected");
       return { memory: false };
     } catch (err) {

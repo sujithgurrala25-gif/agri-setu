@@ -21,7 +21,10 @@ const port = Number(process.env.PORT) || 5000;
 
 connectDb()
   .then(async (info) => {
-    if (info.memory) {
+    const User = require("./models/User");
+    const count = await User.countDocuments();
+    if (info.memory || count === 0) {
+      console.log("Database empty or in-memory: seeding demo data...");
       await seedDatabase();
     }
     app.listen(port, "0.0.0.0", () => console.log(`AgriSetu API on http://localhost:${port}`));

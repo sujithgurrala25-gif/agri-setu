@@ -37,6 +37,8 @@ export default function Register() {
     } catch (err) {
       if (!err.response) {
         setError("Network error: Unable to reach AgriSetu server (http://localhost:5000).");
+      } else if (err.response.status === 405 || err.response.status === 404) {
+        setError(`Backend API endpoint not available (${err.response.status}). Please verify the backend server is running and VITE_API_URL is configured.`);
       } else {
         setError(err.response?.data?.message || "Could not register");
       }
